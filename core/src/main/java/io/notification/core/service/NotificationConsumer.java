@@ -11,9 +11,19 @@ import lombok.AllArgsConstructor;
 @Service
 public class NotificationConsumer {
     public final KafkaTemplate<String, Message> kafkaTemplate;
+    public final SmsService smsService;
+    public final EmailService emailService;
 
     @KafkaListener(topics = "notification.raw", groupId = "notifications")
     public void notificationListen(Message message) {
         System.out.println("Received Message: " + message.toString());
+
+        if (message.getEvent().getChannel().equals("sms")) {
+            smsService.routeMessage(message.getUserId(), message);
+        } else if (message.getEvent().getChannel().equals("email")) {
+            emailService.routeMessage(message.getUserId(), message);
+        } else {
+            throw new IllegalArgumentException("Invalid event type: " + message.getEvent());
+        }
     }
 }

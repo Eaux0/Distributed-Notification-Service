@@ -1,4 +1,4 @@
-package io.notification.core.model;
+package io.worker.email.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

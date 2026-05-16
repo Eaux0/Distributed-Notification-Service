@@ -1,4 +1,4 @@
-package io.notification.core.model;
+package io.worker.email.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
-    Long userId;
-    Event event;
-    Integer priority;
+public class Event {
+    String eventName;
+    String origin;
+    String channel;
+    String backupChannel;
+    String messageText;
 }
