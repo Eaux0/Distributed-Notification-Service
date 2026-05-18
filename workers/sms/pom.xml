@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.worker</groupId>
-	<artifactId>sms</artifactId>
+	<artifactId>worker-sms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sms</name>
+	<name>worker-sms</name>
 	<description />
 	<url />
 	<licenses>

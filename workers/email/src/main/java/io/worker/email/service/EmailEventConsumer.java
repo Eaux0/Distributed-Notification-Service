@@ -11,13 +11,13 @@ import lombok.AllArgsConstructor;
 @Service
 public class EmailEventConsumer {
     public final KafkaTemplate<String, MessageDetails> kafkaTemplate;
-    public final EmailPriorityProducer smsPriorityProducer;
+    public final EmailPriorityProducer emailPriorityProducer;
 
     @KafkaListener(topics = "notification.email", groupId = "notifications")
     public void notificationListen(MessageDetails messageDetails) {
         System.out.println("Received Message: " + messageDetails.toString());
 
-        Boolean wasMessageSent = smsPriorityProducer.routeMesage(messageDetails);
+        Boolean wasMessageSent = emailPriorityProducer.routeMesage(messageDetails);
         if (!wasMessageSent)
             System.out.println("Notification Skipped due to user Preference");
     }
