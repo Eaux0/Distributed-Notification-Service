@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import io.aggregator.email.configurations.RabbitMQConfig;
-import io.aggregator.email.models.MessageDetails;
+import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
 
 @Service

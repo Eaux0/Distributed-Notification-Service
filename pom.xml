@@ -16,5 +16,8 @@
 		<module>aggregator/sms</module>
 		<module>workers/sms</module>
 		<module>workers/email</module>
+		<module>dispatcher/sms</module>
+		<module>dispatcher/email</module>
+		<module>common</module>
 	</modules>
 </project>

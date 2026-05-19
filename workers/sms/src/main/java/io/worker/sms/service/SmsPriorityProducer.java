@@ -3,7 +3,8 @@ package io.worker.sms.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import io.worker.sms.models.MessageDetails;
+import io.notification.common.enums.Priority;
+import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,25 +15,25 @@ public class SmsPriorityProducer {
     public final KafkaTemplate<String, MessageDetails> kafkaTemplate;
 
     private Boolean isMessageToBeSent(MessageDetails messageDetails) {
-        Integer messagePriority = messageDetails.getMessage().getPriority();
-        Boolean allowMarketingNotifcations = messageDetails.getAllowMarketingNotifcations();
+        Priority messagePriority = messageDetails.getMessage().getPriority();
+        Boolean allowMarketingNotifications = messageDetails.getAllowMarketingNotifications();
         Boolean allowEventNotifications = messageDetails.getAllowEventNotifications();
         Boolean allowSecurityNotifications = messageDetails.getAllowSecurityNotifications();
-        if (messagePriority == 0 && !allowSecurityNotifications) {
+        if (messagePriority == Priority.HIGHEST && !allowSecurityNotifications) {
             return false;
         }
-        if (messagePriority == 1 && !allowEventNotifications) {
+        if (messagePriority == Priority.NORMAL && !allowEventNotifications) {
             return false;
         }
-        if (messagePriority == 2 && !allowMarketingNotifcations) {
+        if (messagePriority == Priority.LOWEST && !allowMarketingNotifications) {
             return false;
         }
         return true;
     }
 
-    public Boolean routeMesage(MessageDetails messageDetails) {
-        if (messageDetails.getMessage().getPriority() > 2 || messageDetails.getMessage().getPriority() < 0)
-            throw new IllegalArgumentException("Invalid Priority value. Highest Priority is 0 and Lowest is 2.");
+    public Boolean routeMessage(MessageDetails messageDetails) {
+        if (Priority.doesNotInclude(messageDetails.getMessage().getPriority().toString()))
+            throw new IllegalArgumentException("Invalid Priority value.");
         if (!isMessageToBeSent(messageDetails))
             return false;
 

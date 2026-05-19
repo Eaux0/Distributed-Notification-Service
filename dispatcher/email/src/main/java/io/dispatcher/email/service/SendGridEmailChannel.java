@@ -1,0 +1,59 @@
+package io.dispatcher.email.service;
+
+import java.io.IOException;
+
+import org.springframework.stereotype.Service;
+
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+
+@Service
+public class SendGridEmailChannel {
+
+    private static final String DEFAULT_SUBJECT = "Notification";
+
+    private String apiKey;
+    private String fromEmail;
+    private String fromName;
+
+    public void sendMessage(String recipientEmail, String messageText) {
+        try {
+            validateConfiguration();
+
+            Email from = new Email(fromEmail, fromName);
+            Email to = new Email(recipientEmail);
+            Content content = new Content("text/plain", messageText);
+            Mail mail = new Mail(from, DEFAULT_SUBJECT, to, content);
+
+            Request request = new Request();
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+
+            Response response = new SendGrid(apiKey).api(request);
+            if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
+                throw new RuntimeException("SendGrid API returned status " + response.getStatusCode());
+            }
+
+            System.out.println("Email successfully sent via SendGrid to " + recipientEmail);
+        } catch (IOException e) {
+            System.out.println("Email failed to send via SendGrid to " + recipientEmail);
+            throw new RuntimeException("SendGrid API failed to send email", e);
+        }
+    }
+
+    private void validateConfiguration() {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("Missing SendGrid API key. Set sendgrid.api-key or SENDGRID_API_KEY.");
+        }
+        if (fromEmail == null || fromEmail.isBlank()) {
+            throw new IllegalStateException(
+                    "Missing SendGrid sender email. Set sendgrid.from.email or SENDGRID_FROM_EMAIL.");
+        }
+    }
+}

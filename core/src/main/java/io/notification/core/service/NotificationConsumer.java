@@ -4,7 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import io.notification.core.model.Message;
+import io.notification.common.model.Message;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

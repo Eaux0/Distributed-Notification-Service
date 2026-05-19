@@ -4,7 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import io.worker.email.models.MessageDetails;
+import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class EmailEventConsumer {
     public void notificationListen(MessageDetails messageDetails) {
         System.out.println("Received Message: " + messageDetails.toString());
 
-        Boolean wasMessageSent = emailPriorityProducer.routeMesage(messageDetails);
+        Boolean wasMessageSent = emailPriorityProducer.routeMessage(messageDetails);
         if (!wasMessageSent)
             System.out.println("Notification Skipped due to user Preference");
     }
