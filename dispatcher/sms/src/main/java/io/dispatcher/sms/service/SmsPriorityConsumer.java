@@ -5,7 +5,7 @@ import org.springframework.amqp.core.Message;
 
 import org.springframework.stereotype.Service;
 
-import io.dispatcher.sms.configurations.RabbitMQConfig;
+import io.notification.common.configurations.RabbitMQSmsConfig;
 import io.notification.common.enums.Priority;
 import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class SmsPriorityConsumer {
 
     private final TwilioSmsChannel twilioSmsChannel;
 
-    @RabbitListener(queues = RabbitMQConfig.MAIN_QUEUE)
+    @RabbitListener(queues = RabbitMQSmsConfig.MAIN_SMS_QUEUE)
     public void consumeSmsMessages(MessageDetails messageDetails, Message rawMessage) {
         Priority messagePriority = messageDetails.getMessage().getPriority();
         System.out.println("Received SMS message: " + messageDetails);
@@ -24,6 +24,7 @@ public class SmsPriorityConsumer {
 
         twilioSmsChannel.sendMessage(
                 messageDetails.getUserContactInfo(),
-                messageDetails.getMessage().getEvent().getMessageText());
+                messageDetails.getMessage().getMessageSubject(),
+                messageDetails.getMessage().getMessageText());
     }
 }

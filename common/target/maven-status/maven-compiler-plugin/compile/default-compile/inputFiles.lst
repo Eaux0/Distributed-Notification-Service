@@ -1,7 +1,12 @@
-/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/config/RabbitMQConfig.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/classes/NotificationChannel.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/configurations/RabbitMQEmailConfig.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/configurations/RabbitMQSmsConfig.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/enums/Channel.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/enums/MessageType.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/enums/Priority.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/model/DLQMessage.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/model/Event.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/model/Message.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/model/MessageDetails.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/util/EmailUtil.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/util/SmsUtil.java

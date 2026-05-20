@@ -15,7 +15,7 @@ public abstract class ChannelService {
     public final KafkaTemplate<String, MessageDetails> kafkaTemplate;
 
     private UserContactInfo getUserContactInfo(Long userId) {
-        return new UserContactInfo(userId, null, "+1234567890", "UTC", "en");
+        return new UserContactInfo(userId, "abc@test.com", "+1234567890", "UTC", "en");
     }
 
     private UserPreferences getUserPreferences(Long userId) {

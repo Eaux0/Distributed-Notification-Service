@@ -4,6 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import io.notification.common.enums.Channel;
 import io.notification.common.model.Message;
 import lombok.AllArgsConstructor;
 
@@ -18,9 +19,9 @@ public class NotificationConsumer {
     public void notificationListen(Message message) {
         System.out.println("Received Message: " + message.toString());
 
-        if (message.getEvent().getChannel().equals("sms")) {
+        if (message.getEvent().getChannel() == Channel.SMS) {
             smsService.routeMessage(message.getUserId(), message);
-        } else if (message.getEvent().getChannel().equals("email")) {
+        } else if (message.getEvent().getChannel() == Channel.EMAIL) {
             emailService.routeMessage(message.getUserId(), message);
         } else {
             throw new IllegalArgumentException("Invalid event type: " + message.getEvent());

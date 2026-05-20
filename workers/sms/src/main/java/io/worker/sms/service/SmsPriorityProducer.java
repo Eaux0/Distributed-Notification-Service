@@ -3,6 +3,7 @@ package io.worker.sms.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import io.notification.common.enums.MessageType;
 import io.notification.common.enums.Priority;
 import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
@@ -15,17 +16,17 @@ public class SmsPriorityProducer {
     public final KafkaTemplate<String, MessageDetails> kafkaTemplate;
 
     private Boolean isMessageToBeSent(MessageDetails messageDetails) {
-        Priority messagePriority = messageDetails.getMessage().getPriority();
+        MessageType messageType = messageDetails.getMessage().getMessageType();
         Boolean allowMarketingNotifications = messageDetails.getAllowMarketingNotifications();
         Boolean allowEventNotifications = messageDetails.getAllowEventNotifications();
         Boolean allowSecurityNotifications = messageDetails.getAllowSecurityNotifications();
-        if (messagePriority == Priority.HIGHEST && !allowSecurityNotifications) {
+        if (messageType == MessageType.SECURITY && !allowSecurityNotifications) {
             return false;
         }
-        if (messagePriority == Priority.NORMAL && !allowEventNotifications) {
+        if (messageType == MessageType.EVENT && !allowEventNotifications) {
             return false;
         }
-        if (messagePriority == Priority.LOWEST && !allowMarketingNotifications) {
+        if (messageType == MessageType.MARKETING && !allowMarketingNotifications) {
             return false;
         }
         return true;
@@ -36,8 +37,8 @@ public class SmsPriorityProducer {
             throw new IllegalArgumentException("Invalid Priority value.");
         if (!isMessageToBeSent(messageDetails))
             return false;
-
-        String newTopic = "notification.sms." + messageDetails.getMessage().getPriority();
+        Integer currentPriority = Priority.getPriority(messageDetails.getMessage().getPriority());
+        String newTopic = "notification.sms." + currentPriority.toString();
         kafkaTemplate.send(newTopic, messageDetails);
 
         return true;

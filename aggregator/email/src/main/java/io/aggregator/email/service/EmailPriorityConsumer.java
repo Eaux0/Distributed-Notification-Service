@@ -7,7 +7,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
-import io.aggregator.email.configurations.RabbitMQConfig;
+import io.notification.common.configurations.RabbitMQEmailConfig;
 import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
 
@@ -26,7 +26,9 @@ public class EmailPriorityConsumer {
         String lastChar = topic.substring(topic.length() - 1);
         final int priority = Integer.parseInt(lastChar);
 
-        rabbitTemplate.convertAndSend(RabbitMQConfig.MAIN_EXCHANGE, RabbitMQConfig.MAIN_ROUTING_KEY, messageDetails,
+        rabbitTemplate.convertAndSend(RabbitMQEmailConfig.MAIN_EMAIL_EXCHANGE,
+                RabbitMQEmailConfig.MAIN_EMAIL_ROUTING_KEY,
+                messageDetails,
                 message -> {
                     message.getMessageProperties().setPriority(priority);
                     return message;

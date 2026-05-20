@@ -12,8 +12,10 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
+import io.notification.common.classes.NotificationChannel;
+
 @Service
-public class SendGridEmailChannel {
+public class SendGridEmailChannel extends NotificationChannel {
 
     private static final String DEFAULT_SUBJECT = "Notification";
 
@@ -21,14 +23,18 @@ public class SendGridEmailChannel {
     private String fromEmail;
     private String fromName;
 
-    public void sendMessage(String recipientEmail, String messageText) {
+    @Override
+    public void sendMessage(String recipientEmail, String subject, String messageText) {
+        if (!this.isConnectionCorrect())
+            throw new IllegalStateException("Missing SendGrid API key. Set sendgrid.api-key or SENDGRID_API_KEY.");
+        if (!this.isContactInfoPresent(recipientEmail))
+            throw new IllegalStateException(
+                    "Missing SendGrid sender email. Set sendgrid.from.email or SENDGRID_FROM_EMAIL.");
         try {
-            validateConfiguration();
-
             Email from = new Email(fromEmail, fromName);
             Email to = new Email(recipientEmail);
             Content content = new Content("text/plain", messageText);
-            Mail mail = new Mail(from, DEFAULT_SUBJECT, to, content);
+            Mail mail = new Mail(from, subject == null ? DEFAULT_SUBJECT : subject, to, content);
 
             Request request = new Request();
             request.setMethod(Method.POST);
@@ -47,13 +53,15 @@ public class SendGridEmailChannel {
         }
     }
 
-    private void validateConfiguration() {
-        if (apiKey == null || apiKey.isBlank()) {
-            throw new IllegalStateException("Missing SendGrid API key. Set sendgrid.api-key or SENDGRID_API_KEY.");
-        }
-        if (fromEmail == null || fromEmail.isBlank()) {
-            throw new IllegalStateException(
-                    "Missing SendGrid sender email. Set sendgrid.from.email or SENDGRID_FROM_EMAIL.");
-        }
+    @Override
+    public Boolean isConnectionCorrect() {
+        if (apiKey == null || apiKey.isBlank())
+            return false;
+        return true;
+    }
+
+    @Override
+    public Boolean isContactInfoPresent(String userContactInfo) {
+        return isEmailValid(userContactInfo);
     }
 }
