@@ -2,8 +2,6 @@
 
 An asynchronous, multi-channel notification system built with Spring Boot. The service receives raw notification requests, enriches them with user contact details and preferences, routes them to SMS or email, applies priority handling, and dispatches them through Twilio or SendGrid.
 
-![System Design](System%20Design.png)
-
 ## Features
 
 - SMS and email notification routing
