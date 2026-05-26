@@ -1,5 +1,6 @@
 package io.dispatcher.sms.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.twilio.Twilio;
@@ -12,8 +13,11 @@ import jakarta.annotation.PostConstruct;
 @Service
 public class TwilioSmsChannel extends NotificationChannel {
 
+    @Value("${twilio.account-sid}")
     private String accountSid;
+    @Value("${twilio.auth-token}")
     private String authToken;
+    @Value("${twilio.phone-number}")
     private String twilioPhoneNumber;
 
     @PostConstruct
@@ -26,9 +30,7 @@ public class TwilioSmsChannel extends NotificationChannel {
         if (!this.isConnectionCorrect())
             throw new IllegalStateException(
                     "Missing Twilio account SID or auth token. Set twilio.account-sid or TWILIO_ACCOUNT_SID, twilio.auth-token or TWILIO_AUTH_TOKEN.");
-        if (!this.isContactInfoPresent(recipientPhoneNumber))
-            throw new IllegalStateException(
-                    "Missing Twilio phone number. Set twilio.phone-number or TWILIO_PHONE_NUMBER.");
+        checkMessageStruture(recipientPhoneNumber, messageText);
         try {
             Message.creator(
                     new PhoneNumber(recipientPhoneNumber),

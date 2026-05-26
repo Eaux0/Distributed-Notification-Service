@@ -9,8 +9,10 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
+@Import(RabbitJsonConfig.class)
 public class RabbitMQEmailConfig {
 
     public static final String MAIN_EMAIL_QUEUE = "notification.email.priority.queue";

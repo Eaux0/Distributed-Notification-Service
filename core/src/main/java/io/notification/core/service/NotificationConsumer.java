@@ -4,6 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import io.notification.common.classes.MessageStructureValidator;
 import io.notification.common.enums.Channel;
 import io.notification.common.model.Message;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ public class NotificationConsumer {
     @KafkaListener(topics = "notification.raw", groupId = "notifications")
     public void notificationListen(Message message) {
         System.out.println("Received Message: " + message.toString());
+
+        MessageStructureValidator.checkMessageStruture(message);
 
         if (message.getEvent().getChannel() == Channel.SMS) {
             smsService.routeMessage(message.getUserId(), message);

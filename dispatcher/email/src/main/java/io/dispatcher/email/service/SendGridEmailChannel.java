@@ -2,6 +2,7 @@ package io.dispatcher.email.service;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.sendgrid.Method;
@@ -19,17 +20,21 @@ public class SendGridEmailChannel extends NotificationChannel {
 
     private static final String DEFAULT_SUBJECT = "Notification";
 
+    @Value("${sendgrid.api-key}")
     private String apiKey;
+    @Value("${sendgrid.from.email}")
     private String fromEmail;
+    @Value("${sendgrid.from.name}")
     private String fromName;
 
     @Override
     public void sendMessage(String recipientEmail, String subject, String messageText) {
         if (!this.isConnectionCorrect())
             throw new IllegalStateException("Missing SendGrid API key. Set sendgrid.api-key or SENDGRID_API_KEY.");
-        if (!this.isContactInfoPresent(recipientEmail))
+        checkMessageStruture(recipientEmail, messageText);
+        if (!this.isContactInfoPresent(this.fromEmail))
             throw new IllegalStateException(
-                    "Missing SendGrid sender email. Set sendgrid.from.email or SENDGRID_FROM_EMAIL.");
+                    "Bad Sender Email");
         try {
             Email from = new Email(fromEmail, fromName);
             Email to = new Email(recipientEmail);

@@ -11,4 +11,13 @@ public enum Channel {
         }
         return true;
     }
+
+    public static boolean doesNotInclude(Channel value) {
+        for (Channel priority : values()) {
+            if (priority == value) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -17,4 +17,13 @@ public abstract class NotificationChannel {
     protected boolean isPhoneNumberValid(String phoneNumber) {
         return SmsUtil.isValidPhoneNumber(phoneNumber);
     }
+
+    protected void checkMessageStruture(String userContactInfo, String message) {
+        if (!isContactInfoPresent(userContactInfo)) {
+            throw new IllegalArgumentException("User contact info is missing or invalid");
+        }
+        if (!MessageStructureValidator.hasText(message)) {
+            throw new IllegalArgumentException("Message text cannot be blank");
+        }
+    }
 }

@@ -1,4 +1,7 @@
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/classes/MessageStructureValidator.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/classes/NotificationChannel.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/classes/RouteToBackupChannel.java
+/Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/configurations/RabbitJsonConfig.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/configurations/RabbitMQEmailConfig.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/configurations/RabbitMQSmsConfig.java
 /Users/tsdeshpa/Documents/Projects/SpringBoot/Notification Service/common/src/main/java/io/notification/common/enums/Channel.java

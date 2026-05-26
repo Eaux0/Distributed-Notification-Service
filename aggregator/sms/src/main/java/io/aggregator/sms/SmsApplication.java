@@ -4,10 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
+import io.notification.common.classes.RouteToBackupChannel;
 import io.notification.common.configurations.RabbitMQSmsConfig;
 
 @SpringBootApplication
-@Import(RabbitMQSmsConfig.class)
+@Import({ RabbitMQSmsConfig.class, RouteToBackupChannel.class })
 public class SmsApplication {
 
 	public static void main(String[] args) {

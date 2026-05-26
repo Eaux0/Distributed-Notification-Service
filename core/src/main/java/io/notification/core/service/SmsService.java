@@ -1,8 +1,8 @@
 package io.notification.core.service;
 
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import io.notification.common.classes.MessageStructureValidator;
 import io.notification.common.enums.Channel;
 import io.notification.common.model.Message;
 import io.notification.common.model.MessageDetails;
@@ -11,10 +11,6 @@ import io.notification.core.model.UserPreferences;
 
 @Service
 public class SmsService extends ChannelService {
-
-    public SmsService(KafkaTemplate<String, MessageDetails> kafkaTemplate) {
-        super(kafkaTemplate);
-    }
 
     @Override
     protected MessageDetails mapDetails(UserContactInfo userContactInfo, UserPreferences userPreferences) {
@@ -29,6 +25,7 @@ public class SmsService extends ChannelService {
     }
 
     public void routeMessage(Long userId, Message message) {
+        MessageStructureValidator.checkMessageStruture(message);
         MessageDetails smsDetails = getDetails(userId);
         smsDetails.setMessage(message);
         super.routeMessage("notification.sms", smsDetails);

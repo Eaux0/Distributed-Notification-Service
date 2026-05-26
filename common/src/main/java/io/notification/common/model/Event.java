@@ -14,5 +14,5 @@ public class Event {
     String eventName;
     String origin;
     Channel channel;
-    String backupChannel;
+    Channel backupChannel;
 }

@@ -5,7 +5,9 @@ import org.springframework.amqp.core.Message;
 
 import org.springframework.stereotype.Service;
 
+import io.notification.common.classes.MessageStructureValidator;
 import io.notification.common.configurations.RabbitMQEmailConfig;
+import io.notification.common.enums.Channel;
 import io.notification.common.enums.Priority;
 import io.notification.common.model.MessageDetails;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ public class EmailPriorityConsumer {
 
     @RabbitListener(queues = RabbitMQEmailConfig.MAIN_EMAIL_QUEUE)
     public void consumeSmsMessages(MessageDetails messageDetails, Message rawMessage) {
+        MessageStructureValidator.checkMessageDetailsStruture(messageDetails, Channel.EMAIL);
         Priority messagePriority = messageDetails.getMessage().getPriority();
         System.out.println("Received SMS message: " + messageDetails);
         System.out.println("Rabbit priority: " + messagePriority);

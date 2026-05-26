@@ -1,12 +1,13 @@
 io/notification/common/classes/NotificationChannel.class
+io/notification/common/model/MessageDetails.class
+io/notification/common/configurations/RabbitJsonConfig.class
+io/notification/common/model/DLQMessage.class
 io/notification/common/enums/Channel.class
 io/notification/common/model/Event.class
 io/notification/common/model/Message.class
 io/notification/common/configurations/RabbitMQEmailConfig.class
 io/notification/common/enums/Priority.class
-io/notification/common/model/MessageDetails.class
 io/notification/common/enums/MessageType.class
 io/notification/common/configurations/RabbitMQSmsConfig.class
 io/notification/common/util/SmsUtil.class
 io/notification/common/util/EmailUtil.class
-io/notification/common/model/DLQMessage.class
